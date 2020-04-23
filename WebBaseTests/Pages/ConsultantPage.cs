@@ -14,11 +14,11 @@ namespace WebBaseTests.Pages
         }
 
         [FindsBy(How = How.ClassName, Using = "loginDisplay")]
-        private IWebElement loginDisplay;
+        private IWebElement loginDisplay { get; set; } // получаю всю шапку
 
         public string LogedInUserName()
         {
-           return loginDisplay.Text; // Калиниченко Антон [ Сменить ] [ Выйти ] [ Печать визиток ]
+           return loginDisplay.Text;
         }
         
 

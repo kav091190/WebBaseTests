@@ -10,9 +10,7 @@ namespace WebBaseTests.Pages
             PageFactory.InitElements(driver, this);
         }
 
-
-
-        [FindsBy(How = How.Id, Using = "MainContent_LoginUser_UserName")]   //что такое FindBy и почему он в квадратных скобках? Нашёл что это аннтоция - так ли это, елси да, то что такое антотация?
+        [FindsBy(How = How.Id, Using = "MainContent_LoginUser_UserName")]   //FindBy - атрибут
         private IWebElement UserNameTextField { get; set; }
 
         [FindsBy(How = How.Id, Using = "MainContent_LoginUser_Password")]
@@ -22,17 +20,23 @@ namespace WebBaseTests.Pages
         private IWebElement SubmitButton { get; set; }
 
         [FindsBy(How = How.Id, Using = "MainContent_LoginUser_LoginUserValidationSummary")]
-        private IWebElement FailureNotification { get; set; }
+        private IWebElement ValidationSummaryNotification { get; set; }
+
+        public string FailureNotification()
+        {
+            return ValidationSummaryNotification.Text;
+        }
+
 
         public void PerformLogin(AccountData account)
         {
             UserNameTextField.SendKeys(account.Username);
             PasswordTextField.SendKeys(account.Password);
             SubmitButton.Click();
-
         }
 
 
 
     }
 }
+

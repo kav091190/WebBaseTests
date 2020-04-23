@@ -21,18 +21,21 @@ namespace WebBaseTests
             Pages.LoginPage loginPage = new Pages.LoginPage(driver);
             loginPage.PerformLogin(account);
             Pages.ConsultantPage consultantPage = new Pages.ConsultantPage(driver);
-            Assert.Equals(account.Username, consultantPage.LogedInUserName());
-
+            StringAssert.Contains(account.Username, consultantPage.LogedInUserName());
         }
-        /*
+        
         [Test]
         public void UserNameRequiredTest()
         {
-            var account = new AccountData("", "123456");
+            var account = new AccountData(string.Empty, "123456");
+            var notification = "Поле ''Имя пользователя'' является обязательным.";
             GoToPage();
-            Login(account);
-        }
+            Pages.LoginPage loginPage = new Pages.LoginPage(driver);
+            loginPage.PerformLogin(account);
+            StringAssert.AreEqualIgnoringCase(notification, loginPage.FailureNotification());
 
+        }
+        /*
         [Test]
         public void PasswordRequiredTest()
         {
