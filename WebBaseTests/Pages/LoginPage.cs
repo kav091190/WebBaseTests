@@ -4,9 +4,11 @@ using SeleniumExtras.PageObjects;
 namespace WebBaseTests.Pages
 {
     class LoginPage
-    { 
+    {
+        private string PAGE_URL = "http://dev.dns-shop.ru/login";
         public LoginPage(IWebDriver driver)
         {
+            driver.Navigate().GoToUrl(PAGE_URL);
             PageFactory.InitElements(driver, this);
         }
 
