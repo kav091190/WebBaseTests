@@ -8,8 +8,19 @@ namespace WebBaseTests.Pages
 {
     class ConsultantPage
     {
+        public ConsultantPage(IWebDriver driver)
+        {
+            PageFactory.InitElements(driver, this);
+        }
+
         [FindsBy(How = How.ClassName, Using = "loginDisplay")]
-        protected IWebElement ;
+        private IWebElement loginDisplay;
+
+        public string LogedInUserName()
+        {
+           return loginDisplay.Text; // Калиниченко Антон [ Сменить ] [ Выйти ] [ Печать визиток ]
+        }
+        
 
     }
 }

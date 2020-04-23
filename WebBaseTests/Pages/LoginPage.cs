@@ -1,24 +1,38 @@
 ﻿using OpenQA.Selenium;
 using SeleniumExtras.PageObjects;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace WebBaseTests.Pages
 {
     class LoginPage
-    {
-        protected IWebDriver driver;
-        driver = 
+    { 
+        public LoginPage(IWebDriver driver)
+        {
+            PageFactory.InitElements(driver, this);
+        }
 
-        [FindsBy(How = How.Id, Using = "MainContent_LoginUser_UserName")]
-        protected IWebElement UserNameTextField;
+
+
+        [FindsBy(How = How.Id, Using = "MainContent_LoginUser_UserName")]   //что такое FindBy и почему он в квадратных скобках? Нашёл что это аннтоция - так ли это, елси да, то что такое антотация?
+        private IWebElement UserNameTextField { get; set; }
+
         [FindsBy(How = How.Id, Using = "MainContent_LoginUser_Password")]
-        protected IWebElement PasswordTextField;
-        [FindsBy(How = How.ClassName, Using = "submitButton")]
-        protected IWebElement SubmitButton;
+        private IWebElement PasswordTextField { get; set; }
+
+        [FindsBy(How = How.Id, Using = "MainContent_LoginUser_LoginButton")]
+        private IWebElement SubmitButton { get; set; }
+
         [FindsBy(How = How.Id, Using = "MainContent_LoginUser_LoginUserValidationSummary")]
-        protected IWebElement FailureNotification;
+        private IWebElement FailureNotification { get; set; }
+
+        public void PerformLogin(AccountData account)
+        {
+            UserNameTextField.SendKeys(account.Username);
+            PasswordTextField.SendKeys(account.Password);
+            SubmitButton.Click();
+
+        }
+
+
 
     }
 }
