@@ -25,20 +25,6 @@ namespace WebBaseTests
         public void TearDownTest()
         {
             driver.Close();
-        }
-        
-        protected void GoToPage()
-        {
-            driver.Navigate().GoToUrl(baseURL);
-        }
-
-        /*
-        protected void Login(AccountData account)
-        {
-            driver.FindElement(By.Id("MainContent_LoginUser_UserName")).SendKeys(account.Username);
-            driver.FindElement(By.Id("MainContent_LoginUser_Password")).SendKeys(account.Password);
-            driver.FindElement(By.Id("MainContent_LoginUser_LoginButton")).Click();
-        }*/
-        
+        }        
     }
 }

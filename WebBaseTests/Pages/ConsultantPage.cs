@@ -20,7 +20,5 @@ namespace WebBaseTests.Pages
         {
            return loginDisplay.Text;
         }
-        
-
     }
 }

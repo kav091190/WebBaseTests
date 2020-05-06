@@ -5,10 +5,13 @@ namespace WebBaseTests.Pages
 {
     class LoginPage
     {
-        private string PAGE_URL = "http://dev.dns-shop.ru/login";
+        public void OpenLoginPage(IWebDriver driver)
+        {
+            driver.Navigate().GoToUrl("http://dev.dns-shop.ru/login");
+        }
+
         public LoginPage(IWebDriver driver)
         {
-            driver.Navigate().GoToUrl(PAGE_URL);
             PageFactory.InitElements(driver, this);
         }
 
@@ -24,21 +27,17 @@ namespace WebBaseTests.Pages
         [FindsBy(How = How.Id, Using = "MainContent_LoginUser_LoginUserValidationSummary")]
         private IWebElement ValidationSummaryNotification { get; set; }
 
-        public string FailureNotification()
+        public string GetFailureNotificationText()
         {
             return ValidationSummaryNotification.Text;
         }
-
-
+        
         public void PerformLogin(AccountData account)
         {
             UserNameTextField.SendKeys(account.Username);
             PasswordTextField.SendKeys(account.Password);
             SubmitButton.Click();
         }
-
-
-
     }
 }
 
