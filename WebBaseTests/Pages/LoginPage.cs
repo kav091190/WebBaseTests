@@ -3,19 +3,25 @@ using SeleniumExtras.PageObjects;
 
 namespace WebBaseTests.Pages
 {
-    class LoginPage
+    class LoginPage : PageBase
     {
+        public LoginPage(IWebDriver driver) : base(driver)
+        {
+        }
+
+        /*
         public void OpenLoginPage(IWebDriver driver)
         {
-            driver.Navigate().GoToUrl("http://dev.dns-shop.ru/login");
+           driver.Navigate().GoToUrl("http://dev.dns-shop.ru/login");
         }
 
         public LoginPage(IWebDriver driver)
         {
-            PageFactory.InitElements(driver, this);
+           PageFactory.InitElements(driver, this);
         }
+        */
 
-        [FindsBy(How = How.Id, Using = "MainContent_LoginUser_UserName")]   //FindBy - атрибут
+        [FindsBy(How = How.Id, Using = "MainContent_LoginUser_UserName")]
         private IWebElement UserNameTextField { get; set; }
 
         [FindsBy(How = How.Id, Using = "MainContent_LoginUser_Password")]

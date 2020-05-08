@@ -1,16 +1,12 @@
 ﻿using OpenQA.Selenium;
 using SeleniumExtras.PageObjects;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace WebBaseTests.Pages
 {
-    class ConsultantPage
+    class ConsultantPage : PageBase
     {
-        public ConsultantPage(IWebDriver driver)
+        public ConsultantPage(IWebDriver driver) : base(driver)
         {
-            PageFactory.InitElements(driver, this);
         }
 
         [FindsBy(How = How.ClassName, Using = "loginDisplay")]
