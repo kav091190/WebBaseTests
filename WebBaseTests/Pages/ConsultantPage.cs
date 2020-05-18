@@ -7,12 +7,13 @@ namespace WebBaseTests.Pages
     {
         public ConsultantPage(IWebDriver driver) : base(driver)
         {
+            PageUrl = PageUrl + "/consultant";
         }
 
         [FindsBy(How = How.ClassName, Using = "loginDisplay")]
         private IWebElement loginDisplay { get; set; } // получаю всю шапку
 
-        public string LogedInUserName()
+        public string GetLogedInUserNameText()
         {
            return loginDisplay.Text;
         }

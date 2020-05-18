@@ -9,21 +9,19 @@ namespace WebBaseTests
         {
             var account = new AccountData("Калиниченко Антон", "123456");
             Pages.LoginPage loginPage = new Pages.LoginPage(driver);
-            //Pages.LoginPage loginPage = new Pages.LoginPage(driver);
-            loginPage.GoToPage(driver, "http://dev.dns-shop.ru/login");
-            //loginPage.OpenLoginPage(driver);
+            loginPage.GoToPage();
             loginPage.PerformLogin(account);
             Pages.ConsultantPage consultantPage = new Pages.ConsultantPage(driver);
-            StringAssert.Contains(account.Username, consultantPage.LogedInUserName());
-        }
-        
+            StringAssert.Contains(account.Username, consultantPage.GetLogedInUserNameText());
+         }
+
         [Test]
         public void UserNameRequiredAuthentification()
         {
-            var account = new AccountData(string.Empty, "123456");
+            var account = new AccountData(password: "123456");
             var notification = "Поле ''Имя пользователя'' является обязательным.";
             Pages.LoginPage loginPage = new Pages.LoginPage(driver);
-            loginPage.GoToPage(driver, "http://dev.dns-shop.ru/login");
+            loginPage.GoToPage();
             loginPage.PerformLogin(account);
             StringAssert.AreEqualIgnoringCase(notification, loginPage.GetFailureNotificationText());
 
@@ -32,10 +30,10 @@ namespace WebBaseTests
         [Test]
         public void PasswordRequiredAuthentification()
         {
-            var account = new AccountData("Калиниченко Антон", string.Empty);
+            var account = new AccountData(username: "Калиниченко Антон");
             var notification = "Поле ''Пароль'' является обязательным.";
             Pages.LoginPage loginPage = new Pages.LoginPage(driver);
-            loginPage.GoToPage(driver, "http://dev.dns-shop.ru/login");
+            loginPage.GoToPage();
             loginPage.PerformLogin(account);
             StringAssert.AreEqualIgnoringCase(notification, loginPage.GetFailureNotificationText());
         }
@@ -46,9 +44,9 @@ namespace WebBaseTests
             var account = new AccountData("Калиниченко Антон", "654321");
             var notification = string.Empty;
             Pages.LoginPage loginPage = new Pages.LoginPage(driver);
-            loginPage.GoToPage(driver, "http://dev.dns-shop.ru/login");
+            loginPage.GoToPage();
             loginPage.PerformLogin(account);
-            StringAssert.AreEqualIgnoringCase(notification, loginPage.GetFailureNotificationText());
+            StringAssert.AreEqualIgnoringCase(loginPage.PageUrl, driver.Url);
         }
     }
 }

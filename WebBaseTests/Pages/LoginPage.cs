@@ -7,19 +7,8 @@ namespace WebBaseTests.Pages
     {
         public LoginPage(IWebDriver driver) : base(driver)
         {
+            PageUrl = PageUrl + "/login";
         }
-
-        /*
-        public void OpenLoginPage(IWebDriver driver)
-        {
-           driver.Navigate().GoToUrl("http://dev.dns-shop.ru/login");
-        }
-
-        public LoginPage(IWebDriver driver)
-        {
-           PageFactory.InitElements(driver, this);
-        }
-        */
 
         [FindsBy(How = How.Id, Using = "MainContent_LoginUser_UserName")]
         private IWebElement UserNameTextField { get; set; }

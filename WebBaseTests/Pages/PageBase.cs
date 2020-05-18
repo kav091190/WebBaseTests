@@ -5,14 +5,18 @@ namespace WebBaseTests.Pages
 {
     abstract class PageBase
     {
-        public void GoToPage(IWebDriver driver, string PageUrl = "")
+        protected IWebDriver Driver;
+        public string PageUrl = "http://dev.dns-shop.ru";
+
+        public void GoToPage()
         {
-            driver.Navigate().GoToUrl(PageUrl);
+            Driver.Navigate().GoToUrl(PageUrl);
         }
 
-        public PageBase(IWebDriver driver)
+        protected PageBase(IWebDriver driver)
         {
             PageFactory.InitElements(driver, this);
+            Driver = driver;
         }
     }
 }
