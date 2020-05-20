@@ -1,5 +1,4 @@
-﻿
-namespace WebBaseTests
+﻿namespace WebBaseTests
 {
     public class AccountData
     {
@@ -10,10 +9,7 @@ namespace WebBaseTests
             Password = password;
         }
 
-        //метод-аксессор с помощью которого могу получить параметр Username и поменять его
         public string Username { get; }
-
-        //метод-аксессор для Password
-        public string Password { get;  }
+        public string Password { get; }
     }
 }

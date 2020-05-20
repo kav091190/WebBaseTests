@@ -21,6 +21,6 @@ namespace WebBaseTests
         public void TearDownTest()
         {
             driver.Close();
-        }        
+        }
     }
 }

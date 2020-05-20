@@ -33,6 +33,12 @@ namespace WebBaseTests.Pages
             PasswordTextField.SendKeys(account.Password);
             SubmitButton.Click();
         }
+        public void PerformLogin(string username, string password)
+        {
+            UserNameTextField.SendKeys(username);
+            PasswordTextField.SendKeys(password);
+            SubmitButton.Click();
+        }
     }
 }
 
