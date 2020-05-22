@@ -9,9 +9,17 @@ namespace WebBaseTests
         {
             get
             {
-                yield return new TestCaseData("Калиниченко Антон", "123456").Returns("Калиниченко Антон");
-                yield return new TestCaseData("Калиниченко Антон2", "123456").Returns("Калиниченко Антон2");
-                yield return new TestCaseData("АнтонМ", "123456").Returns("АнтонМ");
+                yield return new TestCaseData("Калиниченко Антон", "123456").Returns("Калиниченко Антон")
+                    .SetName("{m}.{a}")
+                    .SetDescription("Пользователь успешно авторизовался с указанными параметрами");
+
+                yield return new TestCaseData("Калиниченко Антон2", "123456").Returns("Калиниченко Антон2")
+                    .SetName("{m}.{a}")
+                    .SetDescription("Пользователь успешно авторизовался с указанными параметрами");
+
+                yield return new TestCaseData("АнтонМ", "123456").Returns("АнтонМ")
+                    .SetName("{m}.{a}")
+                    .SetDescription("Пользователь успешно авторизовался с указанными параметрами");
             }
         }
 
@@ -25,21 +33,42 @@ namespace WebBaseTests
             return consultantPage.GetLogedInUserNameText().Replace(" [ Сменить ] [ Выйти ]\r\n[ Печать визиток ]", string.Empty);
         }
 
-        public static IEnumerable UserNameRequiredAuthentificationData
+        public static IEnumerable UserDataRequiredAuthentificationData
         {
             get
             {
-                var notification = "Поле ''Имя пользователя'' является обязательным.";
-                yield return new TestCaseData("123456", notification);
-                yield return new TestCaseData("1", notification);
-                yield return new TestCaseData("0000000000000000000000", notification);
+                var UserNameRequiredNotification = "Поле ''Имя пользователя'' является обязательным.";
+                var PasswordRequiredNotification = "Поле ''Пароль'' является обязательным.";
+                yield return new TestCaseData(string.Empty, "123456", UserNameRequiredNotification)
+                    .SetName("{c}.{m}.{a}")
+                    .SetDescription("Оповещение пользователя о необходимости логина, при попытке авторизации без него");
+
+                yield return new TestCaseData(string.Empty, "1", UserNameRequiredNotification)
+                    .SetName("{c}.{m}.{a}")
+                    .SetDescription("Оповещение пользователя о необходимости логина, при попытке авторизации без него");
+
+                yield return new TestCaseData(string.Empty, "0000000000000000000000", UserNameRequiredNotification)
+                    .SetName("{c}.{m}.{a}")
+                    .SetDescription("Оповещение пользователя о необходимости логина, при попытке авторизации без него");
+
+                yield return new TestCaseData("Калиниченко Антон", string.Empty, PasswordRequiredNotification)
+                    .SetName("{c}.{m}.{a}")
+                    .SetDescription("Оповещение пользователя о необходимости пароля, при попытке авторизоваться без него");
+
+                yield return new TestCaseData("Оʻzbek tili", string.Empty, PasswordRequiredNotification)
+                    .SetName("{c}.{m}.{a}")
+                    .SetDescription("Оповещение пользователя о необходимости пароля, при попытке авторизоваться без него");
+
+                yield return new TestCaseData("122334568656", string.Empty, PasswordRequiredNotification)
+                    .SetName("{c}.{m}.{a}")
+                    .SetDescription("Оповещение пользователя о необходимости пароля, при попытке авторизоваться без него");
             }
         }
 
-        [TestCaseSource(nameof(UserNameRequiredAuthentificationData))]
-        public void UserNameRequiredAuthentification(string password, string notification)
+        [TestCaseSource(nameof(UserDataRequiredAuthentificationData))]
+        public void UserDataRequiredAuthentification(string username, string password, string notification)
         {
-            var account = new AccountData(password: password);
+            var account = new AccountData(username, password);
             Pages.LoginPage loginPage = new Pages.LoginPage(driver);
             loginPage.GoToPage();
             loginPage.PerformLogin(account);
@@ -47,19 +76,7 @@ namespace WebBaseTests
 
         }
 
-        [TestCase("Калиниченко Антон", "Поле ''Пароль'' является обязательным.", TestName = "тест"), Description("Вывод сообщения об обязательно пароля, при авторизации без его указания")]
-        [TestCase("Оʻzbek tili", "Поле ''Пароль'' является обязательным.", TestName = "тест2")]
-        [TestCase("122334568656", "Поле ''Пароль'' является обязательным.", TestName = "тест3")]
-        public void PasswordRequiredAuthentification(string username, string notification)
-        {
-            var account = new AccountData(username: username);
-            Pages.LoginPage loginPage = new Pages.LoginPage(driver);
-            loginPage.GoToPage();
-            loginPage.PerformLogin(account);
-            StringAssert.AreEqualIgnoringCase(loginPage.GetFailureNotificationText(), notification);
-        }
-        
-        [TestCase("Калиниченко Антон", "654321", ExpectedResult = "dev.dns-shop.ru/login"), Description("Сохранение пользователя на странице авторизации, если при авторизации был неверно указан пароль")]
+        [TestCase("Калиниченко Антон", "654321", ExpectedResult = "dev.dns-shop.ru/login")]
         [TestCase("Калиниченко Антон2", "dsfr5", ExpectedResult = "dev.dns-shop.ru/login")]
         [TestCase("АнтонМ", "ва4ыва", ExpectedResult = "dev.dns-shop.ru/login")]
         public string WrongPasswordAuthentification(string username, string password)
