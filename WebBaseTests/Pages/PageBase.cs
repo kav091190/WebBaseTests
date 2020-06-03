@@ -10,7 +10,7 @@ namespace WebBaseTests.Pages
     {
         protected IWebDriver Driver;
         public string PageUrl = "http://dev.dns-shop.ru";
-        public WebDriverWait Wait { get; set; }
+        protected WebDriverWait Wait { get; set; }
 
         public void GoToPage()
         {

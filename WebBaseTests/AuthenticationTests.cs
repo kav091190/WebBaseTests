@@ -5,7 +5,7 @@ namespace WebBaseTests
 {
     public class AuthentificationTests : TestBase
     {
-        public static IEnumerable FullValidAccountData
+        public static IEnumerable SuccessfulAuthentificationData
         {
             get
             {
@@ -23,7 +23,7 @@ namespace WebBaseTests
             }
         }
 
-        [TestCaseSource(nameof(FullValidAccountData))]
+        [TestCaseSource(nameof(SuccessfulAuthentificationData))]
         public string SuccessfulAuthentification(string username, string password)
         {
             Pages.LoginPage loginPage = new Pages.LoginPage(driver);
@@ -94,9 +94,15 @@ namespace WebBaseTests
             StringAssert.AreEqualIgnoringCase(loginPage.GetPasswordValidationMessageText(), notification);
         }
 
-        [TestCase("Калиниченко Антон", "654321", ExpectedResult = "dev.dns-shop.ru/login", TestName ="{m}{a}")]
-        [TestCase("Калиниченко Антон2", "dsfr5", ExpectedResult = "dev.dns-shop.ru/login", TestName = "{m}{a}")]
-        [TestCase("АнтонМ", "ва4ыва", ExpectedResult = "dev.dns-shop.ru/login", TestName = "{m}{a}")]
+        [TestCase("Калиниченко Антон", "654321", 
+            ExpectedResult = "dev.dns-shop.ru/login", 
+            TestName ="{m}{a}")]
+        [TestCase("Калиниченко Антон2", "dsfr5", 
+            ExpectedResult = "dev.dns-shop.ru/login", 
+            TestName = "{m}{a}")]
+        [TestCase("АнтонМ", "ва4ыва", 
+            ExpectedResult = "dev.dns-shop.ru/login", 
+            TestName = "{m}{a}")]
         public string WrongPasswordAuthentification(string username, string password)
         {
             Pages.LoginPage loginPage = new Pages.LoginPage(driver);
@@ -105,6 +111,8 @@ namespace WebBaseTests
             StringAssert.AreEqualIgnoringCase(loginPage.GetErrorMessageText(), "Неверный логин или пароль");
             return driver.Url.Replace("http://", string.Empty);
         }
+
+        
     }
 }
 
