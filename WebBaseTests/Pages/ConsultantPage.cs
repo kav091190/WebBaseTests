@@ -1,6 +1,5 @@
 ﻿using OpenQA.Selenium;
 using SeleniumExtras.PageObjects;
-using System.Text.RegularExpressions;
 
 namespace WebBaseTests.Pages
 {

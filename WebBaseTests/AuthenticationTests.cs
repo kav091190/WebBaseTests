@@ -5,25 +5,25 @@ namespace WebBaseTests
 {
     public class AuthentificationTests : TestBase
     {
-        public static IEnumerable SuccessfulAuthentificationData
+        public static IEnumerable FullValidAccountData
         {
             get
             {
                 yield return new TestCaseData("Калиниченко Антон", "123456").Returns("Калиниченко Антон")
-                    .SetName("{m}.{a}")
+                    .SetName("{m}{a}")
                     .SetDescription("Пользователь успешно авторизовался с указанными параметрами");
 
                 yield return new TestCaseData("Калиниченко Антон2", "123456").Returns("Калиниченко Антон2")
-                    .SetName("{m}.{a}")
+                    .SetName("{m}{a}")
                     .SetDescription("Пользователь успешно авторизовался с указанными параметрами");
 
                 yield return new TestCaseData("АнтонМ", "123456").Returns("АнтонМ")
-                    .SetName("{m}.{a}")
+                    .SetName("{m}{a}")
                     .SetDescription("Пользователь успешно авторизовался с указанными параметрами");
             }
         }
 
-        [TestCaseSource(nameof(SuccessfulAuthentificationData))]
+        [TestCaseSource(nameof(FullValidAccountData))]
         public string SuccessfulAuthentification(string username, string password)
         {
             Pages.LoginPage loginPage = new Pages.LoginPage(driver);
@@ -33,58 +33,76 @@ namespace WebBaseTests
             return consultantPage.GetLogedInUserNameText().Replace(" [ Сменить ] [ Выйти ]\r\n[ Печать визиток ]", string.Empty);
         }
 
-        public static IEnumerable UserDataRequiredAuthentificationData
+        public static IEnumerable UserNameRequiredAuthentificationData
         {
             get
             {
-                var UserNameRequiredNotification = "Поле ''Имя пользователя'' является обязательным.";
-                var PasswordRequiredNotification = "Поле ''Пароль'' является обязательным.";
-                yield return new TestCaseData(string.Empty, "123456", UserNameRequiredNotification)
-                    .SetName("{c}.{m}.{a}")
+                var UserNameRequiredNotification = "Поле \"Имя пользователя\" обязательно для заполнения";
+
+                yield return new TestCaseData("123456", UserNameRequiredNotification)
+                    .SetName("{m}{a}")
                     .SetDescription("Оповещение пользователя о необходимости логина, при попытке авторизации без него");
 
-                yield return new TestCaseData(string.Empty, "1", UserNameRequiredNotification)
-                    .SetName("{c}.{m}.{a}")
+                yield return new TestCaseData("1", UserNameRequiredNotification)
+                    .SetName("{m}{a}")
                     .SetDescription("Оповещение пользователя о необходимости логина, при попытке авторизации без него");
 
-                yield return new TestCaseData(string.Empty, "0000000000000000000000", UserNameRequiredNotification)
-                    .SetName("{c}.{m}.{a}")
+                yield return new TestCaseData("0000000000000000000000", UserNameRequiredNotification)
+                    .SetName("{m}{a}")
                     .SetDescription("Оповещение пользователя о необходимости логина, при попытке авторизации без него");
+            }
+        }
 
-                yield return new TestCaseData("Калиниченко Антон", string.Empty, PasswordRequiredNotification)
-                    .SetName("{c}.{m}.{a}")
+        [TestCaseSource(nameof(UserNameRequiredAuthentificationData))]
+        public void UserNameRequiredAuthentification(string password, string notification)
+        {
+            Pages.LoginPage loginPage = new Pages.LoginPage(driver);
+            loginPage.GoToPage();
+            loginPage.FillPasswordTextField(password);
+            loginPage.ClickSubmitButton();
+            StringAssert.AreEqualIgnoringCase(loginPage.GetUserNameValidationMessageText(), notification);
+
+        }
+
+        public static IEnumerable PasswordRequiredAuthentificationData
+        {
+            get
+            {
+                var PasswordRequiredNotification = "Поле \"Пароль\" обязательно для заполнения";
+
+                yield return new TestCaseData("Калиниченко Антон", PasswordRequiredNotification)
+                    .SetName("{m}{a}")
                     .SetDescription("Оповещение пользователя о необходимости пароля, при попытке авторизоваться без него");
 
-                yield return new TestCaseData("Оʻzbek tili", string.Empty, PasswordRequiredNotification)
-                    .SetName("{c}.{m}.{a}")
+                yield return new TestCaseData("Оʻzbek tili", PasswordRequiredNotification)
+                    .SetName("{m}{a}")
                     .SetDescription("Оповещение пользователя о необходимости пароля, при попытке авторизоваться без него");
 
-                yield return new TestCaseData("122334568656", string.Empty, PasswordRequiredNotification)
-                    .SetName("{c}.{m}.{a}")
+                yield return new TestCaseData("122334568656", PasswordRequiredNotification)
+                    .SetName("{m}{a}")
                     .SetDescription("Оповещение пользователя о необходимости пароля, при попытке авторизоваться без него");
             }
         }
 
-        [TestCaseSource(nameof(UserDataRequiredAuthentificationData))]
-        public void UserDataRequiredAuthentification(string username, string password, string notification)
+        [TestCaseSource(nameof(PasswordRequiredAuthentificationData))]
+        public void PasswordRequiredAuthentification(string username, string notification)
         {
-            var account = new AccountData(username, password);
             Pages.LoginPage loginPage = new Pages.LoginPage(driver);
             loginPage.GoToPage();
-            loginPage.PerformLogin(account);
-            StringAssert.AreEqualIgnoringCase(loginPage.GetFailureNotificationText(), notification);
-
+            loginPage.FillUserNameTextField(username);
+            loginPage.ClickSubmitButton();
+            StringAssert.AreEqualIgnoringCase(loginPage.GetPasswordValidationMessageText(), notification);
         }
 
-        [TestCase("Калиниченко Антон", "654321", ExpectedResult = "dev.dns-shop.ru/login")]
-        [TestCase("Калиниченко Антон2", "dsfr5", ExpectedResult = "dev.dns-shop.ru/login")]
-        [TestCase("АнтонМ", "ва4ыва", ExpectedResult = "dev.dns-shop.ru/login")]
+        [TestCase("Калиниченко Антон", "654321", ExpectedResult = "dev.dns-shop.ru/login", TestName ="{m}{a}")]
+        [TestCase("Калиниченко Антон2", "dsfr5", ExpectedResult = "dev.dns-shop.ru/login", TestName = "{m}{a}")]
+        [TestCase("АнтонМ", "ва4ыва", ExpectedResult = "dev.dns-shop.ru/login", TestName = "{m}{a}")]
         public string WrongPasswordAuthentification(string username, string password)
         {
-            var notification = string.Empty;
             Pages.LoginPage loginPage = new Pages.LoginPage(driver);
             loginPage.GoToPage();
             loginPage.PerformLogin(username, password);
+            StringAssert.AreEqualIgnoringCase(loginPage.GetErrorMessageText(), "Неверный логин или пароль");
             return driver.Url.Replace("http://", string.Empty);
         }
     }

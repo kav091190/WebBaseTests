@@ -1,5 +1,8 @@
-﻿using OpenQA.Selenium;
+﻿using System;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.PageObjects;
+
 
 namespace WebBaseTests.Pages
 {
@@ -7,6 +10,7 @@ namespace WebBaseTests.Pages
     {
         protected IWebDriver Driver;
         public string PageUrl = "http://dev.dns-shop.ru";
+        public WebDriverWait Wait { get; set; }
 
         public void GoToPage()
         {
@@ -17,6 +21,7 @@ namespace WebBaseTests.Pages
         {
             PageFactory.InitElements(driver, this);
             Driver = driver;
+            Wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
         }
     }
 }
