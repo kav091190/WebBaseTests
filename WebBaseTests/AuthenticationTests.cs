@@ -1,38 +1,50 @@
 ﻿using NUnit.Framework;
+using OpenQA.Selenium.Chrome;
 using System.Collections;
+using System;
+using OpenQA.Selenium.Remote;
+using OpenQA.Selenium;
 
 namespace WebBaseTests
 {
+    [Parallelizable(ParallelScope.All)]
     public class AuthentificationTests : TestBase
     {
         public static IEnumerable SuccessfulAuthentificationData
         {
             get
             {
-                yield return new TestCaseData("Калиниченко Антон", "123456").Returns("Калиниченко Антон")
+                yield return new TestCaseData(new AccountData("Калиниченко Антон", "123456"))
+                    .Returns("Калиниченко Антон")
                     .SetName("{m}{a}")
                     .SetDescription("Пользователь успешно авторизовался с указанными параметрами");
 
-                yield return new TestCaseData("Калиниченко Антон2", "123456").Returns("Калиниченко Антон2")
+                yield return new TestCaseData(new AccountData("Калиниченко Антон2", "123456"))
+                    .Returns("Калиниченко Антон2")
                     .SetName("{m}{a}")
                     .SetDescription("Пользователь успешно авторизовался с указанными параметрами");
 
-                yield return new TestCaseData("АнтонМ", "123456").Returns("АнтонМ")
+                yield return new TestCaseData(new AccountData("АнтонМ", "123456"))
+                    .Returns("АнтонМ")
                     .SetName("{m}{a}")
                     .SetDescription("Пользователь успешно авторизовался с указанными параметрами");
             }
         }
 
         [TestCaseSource(nameof(SuccessfulAuthentificationData))]
-        public string SuccessfulAuthentification(string username, string password)
+        public string SuccessfulAuthentification(AccountData account)
         {
+            IWebDriver driver = new ChromeDriver(path);
             Pages.LoginPage loginPage = new Pages.LoginPage(driver);
             loginPage.GoToPage();
-            loginPage.PerformLogin(username, password);
+            loginPage.PerformLogin(account.Username, account.Password);
             Pages.ConsultantPage consultantPage = new Pages.ConsultantPage(driver);
-            return consultantPage.GetLogedInUserNameText().Replace(" [ Сменить ] [ Выйти ]\r\n[ Печать визиток ]", string.Empty);
+            string logedinUserNameText = consultantPage.GetLogedInUserNameText().Replace(" [ Сменить ] [ Выйти ]\r\n[ Печать визиток ]", string.Empty);
+            driver.Close();
+            return logedinUserNameText;
         }
 
+        /* Тесты использующие TestBase
         public static IEnumerable UserNameRequiredAuthentificationData
         {
             get
@@ -111,13 +123,6 @@ namespace WebBaseTests
             StringAssert.AreEqualIgnoringCase(loginPage.GetErrorMessageText(), "Неверный логин или пароль");
             return driver.Url.Replace("http://", string.Empty);
         }
-
-        
+        */
     }
 }
-
-
-
-
-
-
