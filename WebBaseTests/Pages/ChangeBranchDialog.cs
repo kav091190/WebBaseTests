@@ -62,17 +62,12 @@ namespace WebBaseTests.Pages
             Wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.XPath("//li[span[text()='" + town.Region.Name + "']]/ul/li[span[text()='" + town.Name + "']]/ul/li")));
         }
              
-        public void FillSearchInTreeTextField(string branch)
-        {
-            SearchInTreeTextField.SendKeys(branch);
-        }
+        public void FillSearchInTreeTextField(string branch) => SearchInTreeTextField.SendKeys(branch);
 
-        public void ClickSearchInTreeButton()
-        {
-            SearchInTreeButton.Click();
-        }
+        public void ClickSearchInTreeButton() => SearchInTreeButton.Click();
 
         public string branchName;
+
         private void GetBranchName(Region region, Town town)
         {
             ClickOnRegion(region);
