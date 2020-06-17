@@ -21,7 +21,8 @@ namespace WebBaseTests.Pages
         {
             PageFactory.InitElements(driver, this);
             Driver = driver;
-            Wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            Wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
+            
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using OpenQA.Selenium;
 using SeleniumExtras.PageObjects;
 using SeleniumExtras.WaitHelpers;
+using System;
 
 namespace WebBaseTests.Pages
 {
@@ -25,9 +26,9 @@ namespace WebBaseTests.Pages
            return LoginDisplay.Text;           
         }
 
-        private string GetCurrentBranchName()
+        public string GetCurrentBranchName()
         {
-            return CurrentBranchName.Text;
+            return CurrentBranchName.Text.Replace("Филиал: ", string.Empty).Replace(" (A+) [ Сменить ]", string.Empty);
         }
 
         public void ClickChangeBranchDialogButton()

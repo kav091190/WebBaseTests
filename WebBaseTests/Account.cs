@@ -1,9 +1,9 @@
 ﻿namespace WebBaseTests
 {
-    public class AccountData
+    public class Account
     {
         //конструктор с помощью которого контруирую объект в одну строчку, указывая обязательные параметры
-        public AccountData(string username = "", string password = "")
+        public Account(string username = "", string password = "")
         {
             Username = username;
             Password = password;
