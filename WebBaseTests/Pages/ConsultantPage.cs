@@ -9,7 +9,7 @@ namespace WebBaseTests.Pages
     {
         public ConsultantPage(IWebDriver driver) : base(driver)
         {
-            PageUrl = PageUrl + "/consultant";
+            PageUrl += "/consultant";
         }
 
         [FindsBy(How = How.ClassName, Using = "loginDisplay")]
@@ -21,13 +21,11 @@ namespace WebBaseTests.Pages
         [FindsBy(How = How.Id, Using = "modal")]
         private IWebElement ChangeBranchDialogButton { get; set; }
 
-        public string GetLogedInUserNameText()
-        {
-           return LoginDisplay.Text;           
-        }
+        public string GetLogedInUserNameText() => LoginDisplay.Text;           
 
         public string GetCurrentBranchName()
         {
+            Wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("TextBranch")));
             return CurrentBranchName.Text.Replace("Филиал: ", string.Empty).Replace(" (A+) [ Сменить ]", string.Empty);
         }
 

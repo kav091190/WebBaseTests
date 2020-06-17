@@ -1,7 +1,6 @@
 ﻿using OpenQA.Selenium;
 using SeleniumExtras.PageObjects;
 using SeleniumExtras.WaitHelpers;
-using System.Threading;
 
 namespace WebBaseTests.Pages
 {
@@ -86,14 +85,7 @@ namespace WebBaseTests.Pages
             GetBranchName(region, town);
             FillSearchInTreeTextField(branchName);
             ClickSearchInTreeButton();
-            Thread.Sleep(20);
-
-            /*
-            IJavaScriptExecutor js = (IJavaScriptExecutor)Driver;
-            bool condition() => (bool)js.ExecuteScript("return document.readyState == 'interactive'");
-
-            while (!condition())
-                Thread.Sleep(100);*/
+            WaitTillPageStatusBeComlete();
         }
     }
 }
