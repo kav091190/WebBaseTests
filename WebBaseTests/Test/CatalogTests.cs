@@ -15,8 +15,13 @@ namespace WebBaseTests.Test
             loginPage.PerformLogin("Калиниченко Антон2", "123456");
             Pages.ConsultantPage consultantPage = new Pages.ConsultantPage(driver);
             consultantPage.GoToPage();
-            consultantPage.GoToAvailableProductsList(category, subcategory);
-            Assert.AreEqual(true, consultantPage.IsThereOutofStockProduct());
+            consultantPage.ClickCategoryButton(category);
+            Pages.CatalogPage catalogPage = new Pages.CatalogPage(driver);
+            catalogPage.ClickSubCategoryButton(subcategory);
+            catalogPage.ClickShowAvailableGoodsButton();
+            catalogPage.ClickFilterSubmitButton();
+            Pages.ProductListPage productListPage = new Pages.ProductListPage(driver);
+            Assert.AreEqual(true, productListPage.IsThereOutofStockProduct(), "При активном фильтре \"В наличии\" с списке товаров отображается отсутсвующий в наличии товар.");
         }
     }
 }
