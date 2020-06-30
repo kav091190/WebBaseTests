@@ -1,6 +1,7 @@
 ﻿using OpenQA.Selenium;
 using SeleniumExtras.PageObjects;
 using SeleniumExtras.WaitHelpers;
+using System;
 using System.Collections.Generic;
 using WebBaseTests.Data;
 
@@ -98,7 +99,7 @@ namespace WebBaseTests.Pages
             ClickCategoryButton(category);
             ClickCategoryButton(subcategory);
             ClickShowAvailableGoodsButton();
-            ClickFilterSubmitButton();
+            ClickFilterSubmitButton();            
         }
         
         /// <summary>
@@ -111,10 +112,10 @@ namespace WebBaseTests.Pages
             {
                 int.TryParse(GetProductsStockCount(s), out int productsStockCount);
                 int.TryParse(GetReservedProductsCount(s), out int reservedProductsCount);
-                if (productsStockCount + reservedProductsCount != 0)
-                    return true;
+                if (productsStockCount + reservedProductsCount == 0)
+                    return false;
             }  
-            return false;
+            return true;
         }
     }
 }
