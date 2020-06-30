@@ -48,7 +48,7 @@ namespace WebBaseTests.Pages
 
         public void ClickCatalogButton() => CatalogButton.Click();
 
-        //ВЗАИМОДЕЙСТВИЯ С КАТАЛОГОМ
+        //Взаимодействие с каталогом
         public void ClickCategoryButton(Category category)
         {
             WaitTillPageStatusBeComlete();
