@@ -31,7 +31,7 @@ namespace WebBaseTests.Pages
             return categoryElement;
         }
 
-        //ВЗАИМОДЕЙСТВИЯ С ШАПКОЙ
+        //Взаимодействие с шапкой
         public string GetLogedInUserNameText() => LoginDisplay.Text;
 
         public string GetCurrentBranchName()

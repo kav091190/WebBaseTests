@@ -31,7 +31,7 @@ namespace WebBaseTests.Pages
             throw new NotImplementedException();
         }
 
-        //ВЗАИМОДЕЙСТВИЕ С ФИЛЬТРАМИ
+        //Взаимодействуие с фильтрами
         public void ClickShowAvailableGoodsButton()
         {
             Wait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.CssSelector("div[class=\"blockUI blockMsg blockPage\"]")));
@@ -44,7 +44,7 @@ namespace WebBaseTests.Pages
             FilterSubmitButton.Click();
         }
 
-        //ВЗАИМОДЕЙСТВИЯ С КАТАЛОГОМ
+        //Взаимодействие с каталогом
         public void ClickSubCategoryButton(Category category)
         {
             WaitTillPageStatusBeComlete();
